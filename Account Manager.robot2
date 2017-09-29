@@ -1,0 +1,42 @@
+*** Settings ***
+Documentation  This file contains the test cases for login, signup, logout and
+...  similar where a user account and credentials are in play.
+
+Library                SeleniumLibrary
+Library                String
+Resource               Common.robot
+
+Suite teardown         Close all browsers
+Test Teardown          Close Browser
+
+*** Test Cases ***
+Users cannot register with invalid data
+    [Template]  Register with ${firstName} ${lastName} ${email} And ${password} Shoud Fail With ${error}
+    Juan       Garay      juan.garay@mailinator.com    cualquierpassword      Elige otra cuenta de e-mail              #This is not allowed for security reasons
+    Juan       Garay      juan.garay@gmail.com         aaaaaaaaaaaaaaaaa      No repitas más de 2 caracteres juntos    #This is for passwords policy
+    ${EMPTY}   Garay      juan.garay@gmail.com         cualquierpassword      Completa este dato.
+    Juan       ${EMPTY}   juan.garay@gmail.com         cualquierpassword      Completa este dato.
+
+
+Users needs to be logged in in order to buy
+    [Documentation]  Users should be required to log in before buying any
+    ...  product, if they are not already.
+
+    Open Browser To Mercado Libre
+    Search For              Bicicleta Fija
+    Filter Page Results By  Nuevo
+    Select First Product
+    Press Buy Button
+    Title Should Be         ¡Hola! Para comprar, ingresa a tu cuenta
+
+
+*** keywords ***
+Register with ${firstName} ${lastName} ${email} And ${password} Shoud Fail With ${error}
+    Open Browser To Mercado Libre
+    Click Link              class=option-register
+    Input Text              signupFirstName      ${firstName}
+    Input Text              signupLastName       ${lastName}
+    Input Text              signupEmail          ${email}
+    Input Password          signupPassword       ${password}
+    Submit Form             signup
+    Page Should Contain     ${error}
