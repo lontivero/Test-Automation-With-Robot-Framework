@@ -35,7 +35,7 @@ Users can select a price range for the product
 
     Open Browser To Mercado Libre
     Search For              Laptop
-    Filter Page Results By Price Between "25000" And "30000"
+    Filter Page Results By Price Between 25000 And 30000
     Page should display some results
 
 
@@ -44,5 +44,5 @@ Users can select a price range for the product (no matching)
     ...  results set by selecting the price range
 
     Open Browser To Mercado Libre Deportes  aerobics-fitness  bicicletas-fijas
-    Filter Page Results By Price Between "70000" And "70001"
-    Page should display some results
+    Filter Page Results By Price Between 9876543 And 9876543
+    Page should not display any result
